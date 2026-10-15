@@ -75,3 +75,21 @@
 @media (max-width:760px){.ot-t{height:300px!important}.ot-apps{display:block!important;position:static;height:auto;width:auto;margin-top:12px}.ot-apps>div{position:static!important;width:auto;height:110px;margin-bottom:12px;padding:20px 20px 0 84px}.ot-apps i{left:24px;top:30px}.ot-apps h4{font-size:22px;line-height:28px}.ot-conn{padding-bottom:588px}}
 @media (max-width:760px){.ot-hero{margin-bottom:81px}.ot-who{padding-bottom:calc(56px + 20px)}.ot-conn{padding-bottom:596px}}
 @media (max-width:760px){.ot-ba{padding-bottom:0}.ot-who{padding-bottom:132px}}
+/* mobile hero: card above quote, mock window inside the card, single-row logos */
+@media (max-width:760px){
+  .ot-hero{display:flex;flex-direction:column;padding:88px 20px 0}.ot-hero__l{display:contents}
+  .ot-hero__card{order:1;position:relative;height:351px;margin-top:40px}.ot-quote{order:2;margin-top:24px}
+  .ot-win{left:20px;top:50px;width:calc(100% - 40px);height:250px}
+  .ot-logos{flex-wrap:nowrap;overflow:hidden;height:100px;padding:20px 20px 0;gap:0}.ot-logos span{width:auto;flex:0 0 96px}
+}
+@media (max-width:760px){.ot-hero__card{left:auto;top:auto;margin-top:100px}}
+@media (max-width:760px){.ot-ba{padding-top:115px}}
+/* mobile nav: Log in | Menu + hamburger */
+@media (max-width:760px){
+  .ot-nav__r{gap:0;top:12px}.ot-nav__r .ot-btn--nav,.ot-nav__r>a:first-child{display:none}
+  .ot-nav__r>a:nth-child(2){display:inline-flex;padding:0 16px;font-size:14px;font-weight:500}.ot-nav__r i{display:block;height:24px;margin:0}
+  .ot-nav__r::after{content:"Menu";font-size:14px;font-weight:500;padding:0 8px 0 16px;height:40px;display:inline-flex;align-items:center}
+  .ot-nav__r::before{content:"";order:9;width:20px;height:40px;background:linear-gradient(#111,#111) 0 14px/20px 2px no-repeat,linear-gradient(#111,#111) 0 24px/20px 2px no-repeat;order:10}
+  .ot-nav__r::after{order:8}
+  .ot-nav__r>*{order:1}
+}
