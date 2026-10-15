@@ -77,3 +77,21 @@ mark{background:#FFE48A;border-radius:3px;padding:0 1px;color:inherit}
   .ott{grid-template-columns:1fr;height:auto}.ott-nav{flex-direction:row;overflow-x:auto;padding:10px;border-right:0;border-bottom:1px solid var(--ids-color-border);align-items:center}.ott-nav__h,.ott-nav__r,.ott-nav__foot{display:none}.ott-nav__rec{margin:0;flex:none}.ott-nav__i{flex:none;white-space:nowrap}
   .ott-mv__cols,.ott-rec__cols{grid-template-columns:1fr}.ott-side{border-left:0;border-top:1px solid var(--ids-color-border)}.ott-mv{height:auto}.ott-tr__list{max-height:60vh}.ott-home,.ott-rec{padding:16px}.ott-mv__hd{padding:10px 12px}.ott-card__x{opacity:1}
 }
+/* ---- Otter in-app parity: full-height white sidebar with logo, blue record, soft-blue active item ---- */
+.app-root{background:#fff}
+.app-hd{padding:0 20px 0 0;gap:0;border-bottom:0;background:#fff}
+.app-hd__logo{display:flex;align-items:center;width:232px;height:56px;padding:0 20px;box-sizing:border-box;border-right:1px solid var(--ids-color-border);flex:none}
+.app-hd__mid{padding-left:24px}
+.ott{background:#fff}
+.ott-nav{padding:8px 12px 16px;gap:2px;background:#fff}
+.ott-btn--rec{background:#0a4ef5;border-color:#0a4ef5;color:#fff;border-radius:999px}.ott-btn--rec:hover{background:#083ec4;border-color:#083ec4}
+.ott-nav__rec{height:40px;margin:0 0 14px;font-weight:600}
+.ott-nav__i{padding:9px 12px;border-radius:10px;font-weight:500;font-size:14px}
+.ott-nav__i.on{background:#eaf0ff;color:#0a4ef5;font-weight:600}
+.ott-nav__h{padding:18px 12px 6px}
+.ott-main{background:#fff}
+.ott-home{max-width:none;padding:28px 40px 60px}
+.ott-search{background:#f3f5fa;border-color:transparent}
+.ott-card{border-radius:14px}
+.ott .ott-btn--rec{color:#fff}
+@media (max-width:860px){.app-hd__logo{width:auto;border-right:0;padding:0 16px}.app-hd__mid{padding-left:0}.ott-home{padding:20px 18px 60px}}
