@@ -1,0 +1,42 @@
+/* WRAPPED in .ot for specificity over the landing resets. */
+/* OtterIsDead /pricing: sections between the nav and the footer, measured from otter.ai/pricing at 1440. Prefix otp-. */
+
+.ot{
+.otp{--bl:#144FFF;--sub:#515e71;--ink:#22282f;--ln:#e6e9ef;display:block;color:#000;background:#fff;font-family:"IsDead Figtree",system-ui,sans-serif}
+.otp *{box-sizing:border-box}:where(.otp) :where(h1,h2,h3,h4,h5,p,ul){margin:0;padding:0}:where(.otp) ul{list-style:none}.otp a{color:inherit;text-decoration:none}.otp button{font:inherit;color:inherit}
+.otp-hero{height:1028px;padding-top:47px;position:relative}.otp-hero h1{text-align:center;font-size:54.58px;line-height:60px;font-weight:300;color:var(--bl);letter-spacing:-.01em;padding-top:0;margin-top:0}
+.otp-hero{margin-top:80px}
+.otp-tabs{margin:20px auto 0;width:236px;height:45px;padding:5.85px;border-radius:97px;background:#f6f7f9;display:flex}.otp-tabs button{border:0;background:transparent;border-radius:97px;padding:0 11.7px;font-size:15.6px;font-weight:500;color:#8896aa;cursor:pointer;display:flex;align-items:center;gap:6px;height:33px;white-space:nowrap}.otp-tabs button.on{color:#232527;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08)}.otp-tabs i{font-style:normal;background:#419220;color:#fff;border-radius:6px;font-size:12px;padding:2px 6px;line-height:16px}
+.otp-usd{margin:23px 0 0 72px;font-size:13.65px;line-height:19px;color:var(--sub)}
+.otp-plans{margin:10px 72px 0;height:766px;background:#fff;border-radius:15.6px;display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--ln);position:relative}
+.otp-plan{position:relative;padding:23px 29px 47px;border-right:1px solid var(--ln);min-width:0}.otp-plan:last-child{border-right:0}
+.otp-plan.is-best{background:radial-gradient(circle at 80% 12%,#e6eaff 0,#fff 45%)}.otp-bar{position:absolute;left:-1px;right:-1px;top:-6px;height:6px;border-radius:4px 4px 0 0;background:#1d25e2}
+.otp-plan header{height:212px}.otp-plan h3{font-size:27.29px;line-height:33px;font-weight:400;display:flex;align-items:center;gap:10px}.otp-plan h3 small{font-size:9.7px;font-weight:600;color:var(--bl);border:1px solid var(--bl);border-radius:4px;padding:1px 5px;letter-spacing:.04em}
+.otp-plan header p{margin-top:4px;font-size:15.6px;line-height:19px;color:var(--sub);font-weight:400}
+.otp-val{margin-top:21px;height:64px}.otp-val__row{display:flex;align-items:baseline;gap:6px;height:33px}.otp-val b{font-size:27.29px;line-height:33px;font-weight:400}.otp-val sup{font-size:15.6px;vertical-align:top;position:relative;top:3px}.otp-val span{font-size:15.6px;color:var(--sub)}
+.otp-save{display:inline-block;margin-top:12px;background:#419220;color:#fff;border-radius:6px;font-size:13.65px;line-height:14px;padding:4px 6px}
+.otp-btn{display:flex;align-items:center;justify-content:center;height:52px;border-radius:15.6px;border:1px solid #d9dde5;background:#fff;color:var(--ink);font-size:15.6px;font-weight:700}
+.otp-plan .otp-btn{margin-top:21px}.otp-btn--blue{background:var(--bl)!important;border-color:var(--bl)!important;color:#fff!important}
+.otp-plan ul{margin-top:36px}.otp-plan hr{border:0;border-top:1px solid var(--ln);margin:24px 0 18px}.otp-plan h5{font-size:13.65px;line-height:19px;font-weight:400;color:var(--bl);margin-bottom:15px}.otp-plan hr+h5+ul{margin-top:0}
+.otp-plan li{display:flex;align-items:flex-start;gap:4px;margin-bottom:15px;font-size:13.65px;line-height:19px;color:var(--sub)}.otp-plan li.b{color:#000;font-weight:700}.otp-plan li svg{flex:none;margin-top:1px;margin-right:2px;color:#000}.otp-plan li b{font-weight:700;color:#000}
+.otp-new{font-style:normal;font-size:9.75px;font-weight:500;color:var(--bl);background:#e8edff;border-radius:4px;padding:1px 5px;height:18px;line-height:16px;flex:none;margin-top:0}.otp-plan li span{min-width:0}
+.otp-foot{margin:14px 0 0 72px;font-size:13.65px;line-height:19px;color:var(--sub)}
+.otp-logos{height:166px;padding:62px 72px 0;display:flex;justify-content:space-between;align-items:flex-start;font-size:15px;color:#9aa3b2;letter-spacing:.02em;font-weight:700}.otp-logos span{height:41px;display:flex;align-items:center}
+.otp-tbl{margin-top:0;padding:35px 0 82px}
+.otp-tbl__h{position:sticky;top:0;z-index:4;height:169px;background:rgba(255,255,255,.94);padding:20px 72px 0;display:grid;grid-template-columns:445px 218px 217px 218px 198px;grid-column:1;align-items:start}
+.otp-tbl__h>div{padding-top:0}.otp-tbl__h h4{font-size:27.29px;line-height:33px;font-weight:400}.otp-tbl__h p{margin-top:3px;font-size:17.5px;line-height:25px;font-weight:500}.otp-tbl__h p small{font-size:15.6px;color:var(--sub);font-weight:400}.otp-tbl__h .otp-btn--s{margin-top:20px;height:49px;width:max-content;padding:0 17.5px;font-size:13.65px}
+.otp-tbl__h>div:first-child{grid-column:2}
+.otp-tbl__b{margin:0 72px}
+.otp-grp__h{display:flex;width:100%;align-items:center;justify-content:space-between;height:81px;padding:23px 0 0;background:transparent;border:0;border-bottom:1px solid var(--ink);cursor:pointer;text-align:left;margin-top:0}.otp-grp__h h4{font-size:27.29px;line-height:33px;font-weight:400}
+.otp-row{display:grid;grid-template-columns:445px 218px 217px 218px 198px;padding:0;border-bottom:0;box-shadow:inset 0 -1px 0 var(--ln);font-size:13.65px;line-height:19px;color:var(--ink);min-height:62px;align-items:center}.otp-row>span{max-width:331px}.otp-row small{font-size:13.65px}.otp-row>div{padding-left:0;display:flex;align-items:center;min-height:19px}.otp-row>div svg{margin-left:-3px}
+.otp-notes{margin:16px 72px 0;font-size:13.65px;line-height:19px;color:var(--sub)}.otp-faq{height:574px;padding:98px 72px 0;background:#fff}.otp-faq h2{font-size:46.79px;line-height:56px;font-weight:300;color:var(--bl);letter-spacing:-.01em}.otp-faq>div{margin-top:18px}
+.otp-faq details{border-bottom:1px solid #d8dce3}.otp-faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;height:76px;font-size:21px;cursor:pointer;font-weight:400}.otp-faq summary::-webkit-details-marker{display:none}.otp-faq summary i{font-style:normal;font-size:24px;color:#555;font-weight:300}.otp-faq details p{padding:0 0 22px;max-width:900px;font-size:16px;line-height:24px;color:var(--sub)}
+.otp-cta{height:614px;position:relative;overflow:hidden;background:linear-gradient(180deg,#1d3bff,#1428f0);color:#fff;text-align:center;padding-top:96px}
+.otp-cta__ov{display:flex;justify-content:center;gap:10px;height:220px;align-items:center}.otp-cta__ov i{display:block;width:60px;height:216px;border-radius:999px;background:linear-gradient(180deg,#ff9bd0,#7f6bff 60%,#37d0ff);opacity:.85}.otp-cta__ov i:nth-child(3n+1){width:130px;background:linear-gradient(160deg,#caa58d,#3a3a5e)}.otp-cta__ov i:nth-child(3n+2){width:90px}
+.otp-cta h2{margin-top:64px;font-size:46.79px;line-height:56px;font-weight:300}.otp-cta>div:last-child{margin-top:34px;display:flex;justify-content:center;gap:14px}.otp-cta .otp-btn{width:130px;height:53px;border:0}.otp-btn--w{background:#fff!important;color:#000!important}.otp-btn--g{background:rgba(255,255,255,.16)!important;color:#fff!important}
+@media (max-width:900px){
+ .otp-hero{height:auto;padding:30px 16px 40px;margin-top:64px}.otp-hero h1{font-size:34px;line-height:40px}.otp-usd{margin:16px 0 0}.otp-plans{margin:8px 0 0;grid-template-columns:1fr;height:auto}.otp-plan{border-right:0;border-bottom:1px solid var(--ln);padding:20px 20px 32px}.otp-plan header{height:auto;padding-bottom:20px}.otp-bar{display:none}.otp-foot{margin:14px 0 0}
+ .otp-logos{height:auto;padding:32px 16px;flex-wrap:wrap;gap:16px 24px;justify-content:center}.otp-tbl{padding:20px 0 40px;overflow-x:auto}.otp-tbl__h,.otp-tbl__b{min-width:640px}.otp-tbl__h{grid-template-columns:140px repeat(4,1fr);padding:16px}.otp-tbl__h h4{font-size:16px;line-height:20px}.otp-tbl__h p{font-size:13px}.otp-tbl__h .otp-btn--s{height:36px;font-size:11px;padding:0 10px}.otp-tbl__h>div:first-child{grid-column:2}.otp-tbl__b{margin:0 16px}.otp-row{grid-template-columns:140px repeat(4,1fr)}.otp-grp__h h4{font-size:20px}
+ .otp-faq{height:auto;padding:56px 16px 48px}.otp-faq h2{font-size:30px;line-height:36px}.otp-faq summary{height:auto;min-height:64px;font-size:16px;gap:12px;padding:12px 0}.otp-cta{height:auto;padding:64px 16px}.otp-cta__ov{height:140px;overflow:hidden}.otp-cta__ov i{height:130px}.otp-cta h2{font-size:30px;line-height:36px;margin-top:40px}
+}
+}

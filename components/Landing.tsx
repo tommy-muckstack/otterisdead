@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { PricingBody } from "@/components/PricingBody";
-import { pricingCfg } from "@/components/pricingCfg";
+import { OtPricing } from "@/components/OtPricing";
 import "@/app/landing.css";
 
 // Home page laid out like otter.ai: light hero with product card, pastel feature cards, blue pricing band, black footer.
@@ -55,7 +54,7 @@ export function Landing({ page }: { page?: "pricing" } = {}) {
       <h2 className="ot-ke">The world's only conversational knowledge engine, now free</h2>
       <div className="ot-row2"><Link className="ot-btn ot-btn--white" href="/login">Start for free</Link><Link className="ot-btn ot-btn--glass" href="/login">Demo it live</Link></div>
       <h2 className="ot-rel">Browse related articles</h2><ul className="ot-arts">{arts.map(a => <li key={a}><Link href="/pricing">{a}</Link></li>)}</ul></section>
-    {page === "pricing" && <PricingBody cfg={pricingCfg} />}
+    {page === "pricing" && <OtPricing />}
     <footer className="ot-foot"><Mark h={26} />
       <div><h6>Use cases</h6>{["Sales", "Education", "Media", "SDR Agent", "Recruiting Agent"].map(x => <Link key={x} href="/pricing">{x}</Link>)}</div>
       <div><h6>Resources</h6>{["Help Center", "Careers", "Press", "Blog"].map(x => <Link key={x} href="/pricing">{x}</Link>)}</div>
