@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { OtPricing } from "@/components/OtPricing";
+import { LandingMobileTop, LandingMobileMore } from "@/components/LandingMobile";
 import "@/app/landing.css";
 
 // Home page laid out like otter.ai: light hero with product card, pastel feature cards, blue pricing band, black footer.
@@ -11,6 +12,8 @@ const Win = () => <div className="ot-win" aria-hidden><div className="ot-win__ba
 const Logos = ["Salesforce", "HARVARD", "NBC", "amazon", "IBM", "Grant Thornton", "Walgreens", "mastercard"];
 const chips = ["Sales", "Education", "Media", "Recruiting Agent", "SDR Agent"];
 const apps: [string, string][][] = [[["Zoom", "Invite your AI meeting agent for automatic real-time transcription, key takeaways and action items."], ["Claude", "Ground AI-generated answers in your team's meeting knowledge for more accurate, reliable results."], ["Dropbox", "Use meeting transcripts and summaries to keep shared folders organized and current."]], [["HubSpot", "Sync transcripts and notes to automatically push insights into your CRM."], ["Jira", "Keep projects moving forward by sending key takeaways and action items from every conversation."], ["Notion", "Seamlessly sync your transcripts, notes, and key takeaways for better organization and collaboration."]]];
+const carA: [string, string][] = [["Claude", "Ground AI-generated answers in your team's meeting knowledge for more accurate, reliable results."], ["Dropbox", "Upload any audio and video files, and they’ll be automatically transcribed into searchable and shareable text."], ["Google Calendar", "Schedule your AI Meeting Agent to automatically join all your Zoom, Microsoft Teams, and Google Meet meetings."], ["Google Docs", "Sync transcriptions and meeting notes for easy editing, sharing, and collaboration with all your teammates."]];
+const carB: [string, string][] = [["Slack", "Instantly share transcripts, summaries, and key takeaways making sure your team is always on the same page."], ["Asana", "Stay on track by automatically turning your meeting notes into simple action items with deadlines."], ["HubSpot", "Log meeting transcripts and notes to automatically push sales insights to your CRM."], ["Jira", "Keep projects moving forward by automatically sending key takeaways and action items from every conversation."]];
 const arts = ["Sending a file takes three moves", "Meeting notes template with action items: your guide to productive meetings", "How to run a meeting like a pro: strategies and tips", "Speech to text for your own recordings", "What are AI agents? A guide to types, benefits, and examples", "Making meetings more productive with the best AI notetaker", "How to generate a transcript: a complete guide", "Chat with your own meeting history", "Transcript generator for any video"];
 
 export function Landing({ page }: { page?: "pricing" } = {}) {
@@ -18,6 +21,7 @@ export function Landing({ page }: { page?: "pricing" } = {}) {
     <header className="ot-nav"><Link href="/" className="ot-logo"><Mark h={22} /></Link>
       <nav><button>Use Cases<Dn /></button><button>Resources<Dn /></button><button>Download<Dn /></button><Link href="/pricing">Enterprise</Link><Link href="/pricing">Pricing</Link></nav>
       <div className="ot-nav__r"><Link href="/pricing">Schedule demo</Link><Link href="/login">Log in</Link><i /><Link href="/login" className="ot-btn ot-btn--nav">Start for free</Link></div></header>
+    {page !== "pricing" && <LandingMobileTop />}
     <section className="ot-hero"><div className="ot-hero__l"><h1>Meeting AI for<br /><span>follow-ups</span></h1><p>Transcription. Pre-call briefs. Live coaching. Automatic follow-ups.</p>
       <div className="ot-row"><Link href="/login" className="ot-btn ot-btn--blue">Start for free</Link><Link href="/pricing" className="ot-btn ot-btn--line">Schedule demo</Link></div>
       <div className="ot-quote"><i aria-hidden /><p>“I use it almost everyday… it is a superpower.”</p><small>— A very happy early user, Head of Enablement</small></div></div>
@@ -36,6 +40,7 @@ export function Landing({ page }: { page?: "pricing" } = {}) {
     <section className="ot-who"><h2>Whatever you do, it works for you</h2><div className="ot-chips">{chips.map((c, i) => <span key={c} className={i === 2 ? "on" : ""}>{c}</span>)}</div>
       <div className="ot-orb" aria-hidden /><h3>Media</h3><p>Capture interviews and production meetings and automatically turn them into searchable transcripts, key quotes, and draft-ready notes.</p>
       <button className="ot-arrow ot-arrow--l" aria-label="Previous">←</button><button className="ot-arrow ot-arrow--r" aria-label="Next">→</button><Link className="ot-btn ot-btn--line ot-learn" href="/pricing">Learn more</Link></section>
+    {page !== "pricing" && <LandingMobileMore />}
     <section className="ot-trust"><h2>Trusted by teams, loved by people</h2><p className="ot-sub">But don't take our word for it.</p>
       <div className="ot-t ot-t--dark1"><i aria-hidden /><blockquote>“It's an incredible app. The most accurate app out there for transcription.”<small>— An early user</small></blockquote></div>
       <div className="ot-t ot-t--logos1"><span>Walgreens</span><span>NBC</span></div>
@@ -45,6 +50,7 @@ export function Landing({ page }: { page?: "pricing" } = {}) {
       <div className="ot-t ot-t--dark2"><i aria-hidden /><blockquote>“I easily save hours per week, without a doubt. That's an exponential amount of time savings.”<small>— A marketing manager</small></blockquote></div></section>
     <section className="ot-conn"><h2>Connect to your favorite apps</h2><p className="ot-sub2">Countless integrations automatically connect your meetings to tools like Slack, Zoom, Salesforce, Claude, Google Drive, and many others.</p>
       {apps.map((row, r) => <div key={r} className={"ot-apps ot-apps--" + r}>{row.map(([n, d]) => <div key={n}><i aria-hidden /><h4>{n}</h4><p>{d}</p></div>)}</div>)}
+      <div className="otm-car" aria-hidden>{[carA, carB].map((row, r) => <div key={r} className={"otm-car__row otm-car__row--" + r}>{row.map(([n, d]) => <div key={n}><i /><h4>{n}</h4><p>{d}</p></div>)}</div>)}</div>
       <Link className="ot-btn ot-btn--black" href="/pricing">View integrations</Link></section>
     <section className="ot-blue"><h2>Flexible plans for teams, individuals, and enterprises</h2>
       <div className="ot-plan ot-plan--1"><em>Basic</em><h3>Get started for free</h3><h5>Free forever</h5><p>Perfect for individuals and small teams looking to transcribe and summarize their meetings effortlessly.</p><b>Features</b><ul><li>Automated AI meeting summaries</li><li>Unlimited meetings</li><li>Basic integrations (Zoom, Google Meet, Teams, Slack)</li></ul><Link className="ot-btn ot-btn--ghostw" href="/login">Start for free</Link></div>
