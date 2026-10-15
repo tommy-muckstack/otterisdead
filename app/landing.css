@@ -93,3 +93,5 @@
   .ot-nav__r::after{order:8}
   .ot-nav__r>*{order:1}
 }
+/* wide screens: home is laid out on a 1440 canvas; centre it, keep dark bands full-bleed */
+@media (min-width:1441px){.ot>header.ot-nav,.ot>section:not(.ot-blue),.ot>.ot-win{max-width:1440px;margin-left:auto;margin-right:auto}.ot-nav{left:50%;right:auto;width:1440px;transform:translateX(-50%)}.ot>section.ot-blue,.ot>footer.ot-foot{max-width:1440px;margin-left:auto;margin-right:auto}.ot>section.ot-blue{box-shadow:0 0 0 100vmax var(--bg);clip-path:inset(0 -100vmax)}.ot>footer.ot-foot{box-shadow:0 0 0 100vmax #000;clip-path:inset(0 -100vmax)}}
