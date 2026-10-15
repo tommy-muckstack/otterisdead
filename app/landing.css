@@ -71,3 +71,7 @@
 
 /* pricing page: hide home sections, keep header/footer */
 .ot.is-pr>section{display:none!important}
+/* mobile vertical rhythm tuned to otter.ai at 390 */
+@media (max-width:760px){.ot-t{height:300px!important}.ot-apps{display:block!important;position:static;height:auto;width:auto;margin-top:12px}.ot-apps>div{position:static!important;width:auto;height:110px;margin-bottom:12px;padding:20px 20px 0 84px}.ot-apps i{left:24px;top:30px}.ot-apps h4{font-size:22px;line-height:28px}.ot-conn{padding-bottom:588px}}
+@media (max-width:760px){.ot-hero{margin-bottom:81px}.ot-who{padding-bottom:calc(56px + 20px)}.ot-conn{padding-bottom:596px}}
+@media (max-width:760px){.ot-ba{padding-bottom:0}.ot-who{padding-bottom:132px}}
