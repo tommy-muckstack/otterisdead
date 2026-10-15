@@ -68,3 +68,6 @@
   .ot-blue{height:auto;padding:60px 20px}.ot-blue h2,.ot-plan,.ot-ke,.ot-row2,.ot-rel,.ot-arts{position:static!important;width:auto!important;padding:0!important}.ot-blue h2{font-size:34px;line-height:38px;margin:0 0 24px}.ot-plan{position:relative!important;height:auto!important;padding:24px!important;margin-bottom:16px}.ot-plan .ot-btn{position:static;margin-top:20px}.ot-ovals{display:none}.ot-row2{margin:24px 0 48px;justify-content:flex-start}.ot-arts{display:block}.ot-arts li{height:auto;width:auto;margin-bottom:16px}
   .ot-foot{height:auto;padding:40px 20px}.ot-foot>svg,.ot-foot>div,.ot-ghost,.ot-legal{position:static!important;width:auto}.ot-foot>div{margin:24px 0}.ot-ghost{display:none}.ot-legal{flex-wrap:wrap;gap:8px 16px;margin-top:24px}
 }
+
+/* pricing page: hide home sections, keep header/footer */
+.ot.is-pr>section{display:none!important}

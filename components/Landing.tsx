@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { PricingBody } from "@/components/PricingBody";
+import { pricingCfg } from "@/components/pricingCfg";
 import "@/app/landing.css";
 
 // Home page laid out like otter.ai: light hero with product card, pastel feature cards, blue pricing band, black footer.
@@ -12,8 +14,8 @@ const chips = ["Sales", "Education", "Media", "Recruiting Agent", "SDR Agent"];
 const apps: [string, string][][] = [[["Zoom", "Invite your AI meeting agent for automatic real-time transcription, key takeaways and action items."], ["Claude", "Ground AI-generated answers in your team's meeting knowledge for more accurate, reliable results."], ["Dropbox", "Use meeting transcripts and summaries to keep shared folders organized and current."]], [["HubSpot", "Sync transcripts and notes to automatically push insights into your CRM."], ["Jira", "Keep projects moving forward by sending key takeaways and action items from every conversation."], ["Notion", "Seamlessly sync your transcripts, notes, and key takeaways for better organization and collaboration."]]];
 const arts = ["Sending a file takes three moves", "Meeting notes template with action items: your guide to productive meetings", "How to run a meeting like a pro: strategies and tips", "Speech to text for your own recordings", "What are AI agents? A guide to types, benefits, and examples", "Making meetings more productive with the best AI notetaker", "How to generate a transcript: a complete guide", "Chat with your own meeting history", "Transcript generator for any video"];
 
-export function Landing() {
-  return <div className="ot">
+export function Landing({ page }: { page?: "pricing" } = {}) {
+  return <div className={"ot" + (page === "pricing" ? " is-pr" : "")}>
     <header className="ot-nav"><Link href="/" className="ot-logo"><Mark h={22} /></Link>
       <nav><button>Use Cases<Dn /></button><button>Resources<Dn /></button><button>Download<Dn /></button><Link href="/pricing">Enterprise</Link><Link href="/pricing">Pricing</Link></nav>
       <div className="ot-nav__r"><Link href="/pricing">Schedule demo</Link><Link href="/login">Log in</Link><i /><Link href="/login" className="ot-btn ot-btn--nav">Start for free</Link></div></header>
@@ -53,6 +55,7 @@ export function Landing() {
       <h2 className="ot-ke">The world's only conversational knowledge engine, now free</h2>
       <div className="ot-row2"><Link className="ot-btn ot-btn--white" href="/login">Start for free</Link><Link className="ot-btn ot-btn--glass" href="/login">Demo it live</Link></div>
       <h2 className="ot-rel">Browse related articles</h2><ul className="ot-arts">{arts.map(a => <li key={a}><Link href="/pricing">{a}</Link></li>)}</ul></section>
+    {page === "pricing" && <PricingBody cfg={pricingCfg} />}
     <footer className="ot-foot"><Mark h={26} />
       <div><h6>Use cases</h6>{["Sales", "Education", "Media", "SDR Agent", "Recruiting Agent"].map(x => <Link key={x} href="/pricing">{x}</Link>)}</div>
       <div><h6>Resources</h6>{["Help Center", "Careers", "Press", "Blog"].map(x => <Link key={x} href="/pricing">{x}</Link>)}</div>
