@@ -5,7 +5,6 @@
 .ota-card h1{margin:0 0 31px;font-size:32px;line-height:42px;font-weight:400;color:#14161f;letter-spacing:-.01em}
 .ota-sub{margin:-8px 0 20px;font-size:14px;line-height:18px;color:#3b3f4d}.ota-sub b{font-weight:700}
 .ota-prov{height:41px;margin-bottom:15px;border:1px solid #cfd2e3;border-radius:21px;background:#fff;color:#14161f;font:inherit;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
-.ota-prov[aria-disabled=true]{cursor:default}
 .ota-why{margin-top:-1px;padding-top:2px;font-size:13.5px;line-height:18px;color:#4c5370;text-decoration:underline}
 .ota-or{display:flex;align-items:center;gap:24px;margin:20px 0 0;font-size:12px;color:#3b3f4d;line-height:18px}.ota-or i{flex:1;border-top:1px solid #55608f}
 .ota-more{margin-top:40px;font-size:16px;line-height:22px;font-weight:700;color:#0a4ef5;text-decoration:none}
