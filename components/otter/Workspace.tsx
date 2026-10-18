@@ -7,11 +7,14 @@ import { saveAudio, deleteAudio } from "@/lib/otter/audio";
 import { Recorder } from "./Recorder";
 import { MeetingView } from "./MeetingView";
 import { Avatar } from "./ui";
+import { track, identify, EVENTS } from "@/lib/analytics";
 
 type View = { k: "home" } | { k: "rec" } | { k: "m"; id: string; seg?: string };
 const SAMPLE = "Host: Welcome everyone, let's review the launch checklist.\nMia: I'll finish the landing page copy by Friday.\nHost: Great. Omar, can you test the signup flow tomorrow?\nOmar: Yes, I'll test signup on mobile and desktop.";
 
-export function Workspace({ uid, demo }: { uid: string; name: string; email: string; demo: boolean }) {
+export function Workspace({ uid, demo, guest = false }: { uid: string; name: string; email: string; demo: boolean; guest?: boolean }) {
+  // Real accounts are identified by Firebase uid; guest and demo sessions only get an account_type.
+  useEffect(() => { identify(uid, demo ? "demo" : guest ? "guest" : "firebase"); }, [uid, demo, guest]);
   const [meetings, setMeetings, ready] = useLocal<Meeting[] | null>(uid, "meetings", null);
   const [view, setView] = useState<View>({ k: "home" }); const [q, setQ] = useState(""); const [imp, setImp] = useState(false);
   useEffect(() => { if (ready && meetings === null) setMeetings(demo ? seedMeetings() : []); }, [ready, meetings, demo, setMeetings]);
@@ -19,7 +22,7 @@ export function Workspace({ uid, demo }: { uid: string; name: string; email: str
   const hits = useMemo(() => search(list, q), [list, q]);
   const byId = (id: string) => list.find(m => m.id === id);
   const update = (id: string, f: (m: Meeting) => Meeting) => setMeetings(ms => (ms ?? []).map(m => (m.id === id ? f(m) : m)));
-  const add = (m: Meeting) => { setMeetings(ms => [m, ...(ms ?? [])]); setView({ k: "m", id: m.id }); setQ(""); };
+  const add = (m: Meeting, hasAudio = false) => { track(EVENTS.app_conversation_created, { capture: m.source === "demo" ? "demo" : m.source === "import" ? "import" : "live", segments: m.segments.length, speakers: m.speakers.length, duration_s: Math.round(m.duration), has_audio: hasAudio, has_notes: !!m.notes.trim() }); setMeetings(ms => [m, ...(ms ?? [])]); setView({ k: "m", id: m.id }); setQ(""); };
   if (!ready || meetings === null) return <div className="ott-loading" role="status">Loading your conversations…</div>;
   const cur = view.k === "m" ? byId(view.id) : undefined;
 
@@ -33,9 +36,9 @@ export function Workspace({ uid, demo }: { uid: string; name: string; email: str
       <p className="ott-nav__foot">Your recordings and transcripts stay in this browser.</p>
     </nav>
     <main className="ott-main">
-      {view.k === "rec" && <Recorder onCancel={() => setView({ k: "home" })} onSave={(m, blob) => { if (blob) saveAudio(m.id, blob); add(m); }} />}
-      {view.k === "m" && cur && <MeetingView key={cur.id} m={cur} focusSeg={view.seg} onChange={f => update(cur.id, f)} onBack={() => setView({ k: "home" })} onDelete={() => { setMeetings(ms => (ms ?? []).filter(x => x.id !== cur.id)); setView({ k: "home" }); }} />}
-      {(view.k === "home" || (view.k === "m" && !cur)) && <Home list={list} q={q} setQ={setQ} hits={hits} open={(id, seg) => setView({ k: "m", id, seg })} onRecord={() => setView({ k: "rec" })} onImport={() => setImp(true)} onDelete={id => { deleteAudio(id); setMeetings(ms => (ms ?? []).filter(x => x.id !== id)); }} />}
+      {view.k === "rec" && <Recorder onCancel={() => setView({ k: "home" })} onSave={(m, blob) => { if (blob) saveAudio(m.id, blob); add(m, !!blob); }} />}
+      {view.k === "m" && cur && <MeetingView key={cur.id} m={cur} focusSeg={view.seg} onChange={f => update(cur.id, f)} onBack={() => setView({ k: "home" })} onDelete={() => { track(EVENTS.app_conversation_deleted, { from: "view" }); setMeetings(ms => (ms ?? []).filter(x => x.id !== cur.id)); setView({ k: "home" }); }} />}
+      {(view.k === "home" || (view.k === "m" && !cur)) && <Home list={list} q={q} setQ={setQ} hits={hits} open={(id, seg) => setView({ k: "m", id, seg })} onRecord={() => setView({ k: "rec" })} onImport={() => setImp(true)} onDelete={id => { track(EVENTS.app_conversation_deleted, { from: "list" }); deleteAudio(id); setMeetings(ms => (ms ?? []).filter(x => x.id !== id)); }} />}
     </main>
     {imp && <ImportDialog onClose={() => setImp(false)} onImport={m => { add(m); setImp(false); }} />}
   </div>;

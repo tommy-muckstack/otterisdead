@@ -4,6 +4,7 @@ import { buildMeeting, fmtTime, liveFinal, liveInterim, liveStart, liveSwitch, t
 import { DEMO_LINES } from "@/lib/otter/seed";
 import { speechSupported, startSpeech } from "@/lib/otter/speech";
 import { colorFor, Avatar } from "./ui";
+import { track, EVENTS } from "@/lib/analytics";
 
 type Status = "idle" | "rec" | "paused";
 
@@ -53,7 +54,7 @@ export function Recorder({ onSave, onCancel }: { onSave: (m: Meeting, audio?: Bl
     </div>
     <div className="ott-rec__bar">
       <div className={"ott-clock" + (status === "rec" ? " is-live" : "")} data-testid="clock" aria-live="off"><span className="ott-dot" />{fmtTime(elapsed)}</div>
-      {status === "idle" && <><button className="ott-btn ott-btn--rec" data-testid="start" onClick={() => begin(false)}>● Start recording</button><button className="ott-btn" data-testid="demo" onClick={() => begin(true)}>▶ Run a demo recording</button></>}
+      {status === "idle" && <><button className="ott-btn ott-btn--rec" data-testid="start" onClick={() => { track(EVENTS.app_recording_started, { demo: false, speech_supported: supported }); begin(false); }}>● Start recording</button><button className="ott-btn" data-testid="demo" onClick={() => { track(EVENTS.app_recording_started, { demo: true, speech_supported: supported }); begin(true); }}>▶ Run a demo recording</button></>}
       {status === "rec" && <button className="ott-btn" data-testid="pause" onClick={pause}>❚❚ Pause</button>}
       {status === "paused" && !demo && <button className="ott-btn ott-btn--rec" data-testid="resume" onClick={resume}>● Resume</button>}
       {(status !== "idle" || live.segments.length > 0) && <button className="ott-btn ott-btn--primary" data-testid="stop" onClick={finish}>■ Stop &amp; save</button>}

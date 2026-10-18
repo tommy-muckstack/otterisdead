@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { addAction, ask, editSegment, fmtDuration, fmtTime, keywords, matchRanges, outline, removeAction, renameSpeaker, summarize, toMarkdown, toSrt, toText, toggleAction, toggleHighlight, type Meeting } from "@/lib/otter/model";
 import { deleteAudio, loadAudio, saveAudio } from "@/lib/otter/audio";
 import { Avatar, colorFor, dl, slug } from "./ui";
+import { track, EVENTS } from "@/lib/analytics";
 
 type Tab = "summary" | "actions" | "notes" | "ask";
 function Marked({ text, q }: { text: string; q: string }) {
@@ -19,7 +20,7 @@ export function MeetingView({ m, onChange, onDelete, onBack, focusSeg }: { m: Me
   useEffect(() => { let url: string | null = null; let dead = false; loadAudio(m.id).then(b => { if (b && !dead) { url = URL.createObjectURL(b); setAudio(url); } }); return () => { dead = true; if (url) URL.revokeObjectURL(url); }; }, [m.id]);
   useEffect(() => { if (!flash) return; const el = document.getElementById("seg-" + flash); el?.scrollIntoView({ block: "center" }); const t = setTimeout(() => setFlash(undefined), 2200); return () => clearTimeout(t); }, [flash]);
   const jump = (id: string, start: number) => { setFlash(id); if (audioEl.current && audio) { audioEl.current.currentTime = start; audioEl.current.play().catch(() => {}); } };
-  const attach = async (f: File | undefined) => { if (!f) return; if (await saveAudio(m.id, f)) setAudio(URL.createObjectURL(f)); };
+  const attach = async (f: File | undefined) => { if (!f) return; if (await saveAudio(m.id, f)) { setAudio(URL.createObjectURL(f)); track(EVENTS.app_audio_attached); } };
   const matches = q.trim() ? m.segments.filter(s => s.text.toLowerCase().includes(q.trim().toLowerCase())).length : 0;
   const done = m.actions.filter(a => a.done).length;
   const idx = (name: string) => Math.max(0, m.speakers.indexOf(name));
@@ -31,10 +32,10 @@ export function MeetingView({ m, onChange, onDelete, onBack, focusSeg }: { m: Me
       <span className="ott-muted ott-mv__meta">{new Date(m.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })} · {fmtDuration(m.duration)}</span>
       <div className="ott-menuwrap"><button className="ott-btn" aria-haspopup="menu" aria-expanded={menu} onClick={() => setMenu(v => !v)}>Export ▾</button>
         {menu && <div className="ott-menu" role="menu" onMouseLeave={() => setMenu(false)}>
-          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".md", toMarkdown(m), "text/markdown"); setMenu(false); }}>Markdown (.md)</button>
-          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".txt", toText(m)); setMenu(false); }}>Transcript (.txt)</button>
-          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".srt", toSrt(m)); setMenu(false); }}>Subtitles (.srt)</button>
-          <button role="menuitem" onClick={() => { navigator.clipboard?.writeText(toMarkdown(m)); setMenu(false); }}>Copy as Markdown</button></div>}</div>
+          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".md", toMarkdown(m), "text/markdown"); track(EVENTS.app_conversation_exported, { format: "md" }); setMenu(false); }}>Markdown (.md)</button>
+          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".txt", toText(m)); track(EVENTS.app_conversation_exported, { format: "txt" }); setMenu(false); }}>Transcript (.txt)</button>
+          <button role="menuitem" onClick={() => { dl(slug(m.title) + ".srt", toSrt(m)); track(EVENTS.app_conversation_exported, { format: "srt" }); setMenu(false); }}>Subtitles (.srt)</button>
+          <button role="menuitem" onClick={() => { navigator.clipboard?.writeText(toMarkdown(m)); track(EVENTS.app_conversation_exported, { format: "copy" }); setMenu(false); }}>Copy as Markdown</button></div>}</div>
       <button className="ott-btn ott-btn--danger" onClick={() => { if (confirm("Delete this conversation?")) { deleteAudio(m.id); onDelete(); } }}>Delete</button>
     </header>
     <div className="ott-mv__audio">
@@ -45,7 +46,7 @@ export function MeetingView({ m, onChange, onDelete, onBack, focusSeg }: { m: Me
       <section className="ott-tr" aria-label="Transcript">
         <div className="ott-tr__tools"><input className="ott-search" aria-label="Search in transcript" placeholder="Search transcript" value={q} onChange={e => setQ(e.target.value)} />{q.trim() && <span className="ott-muted" data-testid="matches">{matches} {matches === 1 ? "line" : "lines"}</span>}
           <span className="ott-spkrs">{m.speakers.map((s, i) => rename === s
-            ? <input key={s} className="ott-rename" autoFocus aria-label={`Rename ${s}`} defaultValue={s} onBlur={e => { onChange(x => renameSpeaker(x, s, e.target.value)); setRename(null); }} onKeyDown={e => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); if (e.key === "Escape") setRename(null); }} />
+            ? <input key={s} className="ott-rename" autoFocus aria-label={`Rename ${s}`} defaultValue={s} onBlur={e => { const v = e.target.value.trim(); if (v && v !== s) track(EVENTS.app_speaker_renamed); onChange(x => renameSpeaker(x, s, e.target.value)); setRename(null); }} onKeyDown={e => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); if (e.key === "Escape") setRename(null); }} />
             : <button key={s} className="ott-chip" title="Rename speaker" onClick={() => setRename(s)}><Avatar name={s} i={i} size={16} />{s}</button>)}</span></div>
         <div className="ott-tr__list">
           {m.segments.map(s => <div key={s.id} id={"seg-" + s.id} data-testid="segment" className={"ott-seg" + (s.hl ? " is-hl" : "") + (flash === s.id ? " is-flash" : "")}>
@@ -67,13 +68,13 @@ export function MeetingView({ m, onChange, onDelete, onBack, focusSeg }: { m: Me
             {m.segments.some(s => s.hl) && <><h3>Highlights</h3><ul className="ott-hls">{m.segments.filter(s => s.hl).map(s => <li key={s.id}><button onClick={() => jump(s.id, s.start)}>“{s.text}”<small> {s.speaker} · {fmtTime(s.start)}</small></button></li>)}</ul></>}
           </>}
           {tab === "actions" && <>
-            <ul className="ott-acts" data-testid="actions">{m.actions.map(a => <li key={a.id} className={a.done ? "done" : ""}><label><input type="checkbox" checked={a.done} onChange={() => onChange(x => toggleAction(x, a.id))} /><span>{a.text}</span></label>
+            <ul className="ott-acts" data-testid="actions">{m.actions.map(a => <li key={a.id} className={a.done ? "done" : ""}><label><input type="checkbox" checked={a.done} onChange={() => { track(EVENTS.app_action_item_toggled, { done: !a.done }); onChange(x => toggleAction(x, a.id)); }} /><span>{a.text}</span></label>
               <div className="ott-acts__meta"><span className="ott-chip">{a.owner}</span>{a.due && <span className="ott-chip ott-chip--due">{a.due}</span>}{a.seg && <button className="ott-link" onClick={() => { const s = m.segments.find(x => x.id === a.seg); if (s) jump(s.id, s.start); }}>in transcript</button>}<button className="ott-link" aria-label="Remove action item" onClick={() => onChange(x => removeAction(x, a.id))}>remove</button></div></li>)}
               {!m.actions.length && <li className="ott-muted">No action items found. Add one below.</li>}</ul>
-            <form className="ott-row" onSubmit={e => { e.preventDefault(); onChange(x => addAction(x, newAct)); setNewAct(""); }}><input aria-label="New action item" placeholder="Add an action item" value={newAct} onChange={e => setNewAct(e.target.value)} /><button className="ott-btn">Add</button></form></>}
+            <form className="ott-row" onSubmit={e => { e.preventDefault(); if (newAct.trim()) track(EVENTS.app_action_item_added); onChange(x => addAction(x, newAct)); setNewAct(""); }}><input aria-label="New action item" placeholder="Add an action item" value={newAct} onChange={e => setNewAct(e.target.value)} /><button className="ott-btn">Add</button></form></>}
           {tab === "notes" && <textarea className="ott-notes" aria-label="Notes" rows={14} placeholder="Your notes, saved automatically." value={m.notes} onChange={e => onChange(x => ({ ...x, notes: e.target.value }))} />}
           {tab === "ask" && <>
-            <form className="ott-row" onSubmit={e => { e.preventDefault(); setAsked(question); }}><input aria-label="Ask about this conversation" placeholder="Ask: who owns the load test?" value={question} onChange={e => setQuestion(e.target.value)} /><button className="ott-btn ott-btn--primary">Ask</button></form>
+            <form className="ott-row" onSubmit={e => { e.preventDefault(); setAsked(question); if (question.trim()) track(EVENTS.app_question_asked, { answers: ask(m, question).length }); }}><input aria-label="Ask about this conversation" placeholder="Ask: who owns the load test?" value={question} onChange={e => setQuestion(e.target.value)} /><button className="ott-btn ott-btn--primary">Ask</button></form>
             {asked && <div data-testid="answers">{answers.length ? <><p className="ott-muted">Most relevant moments (matched locally on your keywords):</p><ul className="ott-hls">{answers.map(s => <li key={s.id}><button onClick={() => jump(s.id, s.start)}>“{s.text}”<small> {s.speaker} · {fmtTime(s.start)}</small></button></li>)}</ul></> : <p className="ott-muted">Nothing in this conversation matches that question.</p>}</div>}</>}
         </div>
       </aside>
