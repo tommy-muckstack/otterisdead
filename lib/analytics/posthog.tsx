@@ -21,10 +21,13 @@ const surfaceOf = (pathname: string): Surface => (/^\/(app)(\/|$)/.test(pathname
 // (it can be a user's own page or document name).
 // OtterIsDead puts no conversation ids or tokens in URL paths (the open conversation is client state), so nothing to mask.
 const PRIVATE_PATHS: RegExp[] = [];
-const URL_PROPS = ["$current_url", "$referrer", "$initial_current_url", "$initial_referrer", "$prev_pageview_pathname", "$pathname"];
+const URL_PROPS = ["$current_url", "$referrer", "$initial_current_url", "$initial_referrer", "$prev_pageview_pathname", "$pathname", "$session_entry_url", "$session_entry_referrer", "$session_entry_pathname"];
+// Any key that names a URL, referrer or pathname is cleaned too, so new posthog-js properties can't slip through.
+const isUrlKey = (k: string) => URL_PROPS.includes(k) || /(url|referrer|pathname)$/i.test(k);
 const cleanUrl = (v: unknown) => { if (typeof v !== "string" || !v || v === "$direct") return v; let u = v.split(/[?#]/)[0]!; for (const re of PRIVATE_PATHS) u = u.replace(re, "$1:id"); return u; };
+const cleanBag = (o: unknown) => { if (!o || typeof o !== "object") return; const r = o as Record<string, unknown>; for (const k of Object.keys(r)) if (isUrlKey(k)) r[k] = cleanUrl(r[k]); };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function scrub(e: any) { if (!e?.properties) return e; for (const k of URL_PROPS) if (k in e.properties) e.properties[k] = cleanUrl(e.properties[k]); delete e.properties.title; if (e.$set) for (const k of URL_PROPS) if (k in e.$set) e.$set[k] = cleanUrl(e.$set[k]); if (e.$set_once) for (const k of URL_PROPS) if (k in e.$set_once) e.$set_once[k] = cleanUrl(e.$set_once[k]); return e; }
+export function scrub(e: any) { if (!e) return e; const pr = e.properties; if (pr) { cleanBag(pr); delete pr.title; cleanBag(pr.$set); cleanBag(pr.$set_once); } cleanBag(e.$set); cleanBag(e.$set_once); return e; }
 
 async function client(): Promise<PH | null> {
   if (!KEY || typeof window === "undefined") return null;

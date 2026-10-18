@@ -7,7 +7,7 @@ One PostHog project (US cloud, project **666931**) collects the hub and every Is
 - `NEXT_PUBLIC_POSTHOG_KEY` = the project's publishable token (safe in the browser); `NEXT_PUBLIC_POSTHOG_HOST=https://us.posthog.com`. No key → analytics is a no-op. Both are already set on the Vercel project.
 - Reverse proxy through the app's own origin: `/otterisdead/ingest/*` → `us.i.posthog.com` (rewrites in `next.config.mjs`, with `skipTrailingSlashRedirect: true`).
 - `<Analytics />` is mounted once in `app/layout.tsx`; it boots the client and sends PostHog's `$pageview` per route change. Autocapture and session replay are off.
-- Privacy: `scrub` (the `before_send` hook in `lib/analytics/posthog.tsx`) cuts query strings and hashes from every URL property (`$current_url`, `$referrer`, `$pathname`, ...) and drops the page `title`. `PRIVATE_PATHS` is empty: OtterIsDead puts no conversation ids or tokens in URL paths. Heatmaps and performance capture (`$$heatmap`, `$web_vitals`) are off.
+- Privacy: `scrub` (the `before_send` hook in `lib/analytics/posthog.tsx`) cuts query strings and hashes from every URL property (`$current_url`, `$referrer`, `$pathname`, `$session_entry_url`/`_referrer`/`_pathname`, and any key ending in `url`, `referrer` or `pathname`, including inside `$set` / `$set_once`) and drops the page `title`. `PRIVATE_PATHS` is empty: OtterIsDead puts no conversation ids or tokens in URL paths. Heatmaps and performance capture (`$$heatmap`, `$web_vitals`) are off.
 - posthog-js drops automated browsers. In dev, `localStorage.isdead_ph_debug = "1"` turns on verbose logs and lets Playwright capture; production keeps the bot filter.
 
 ## Super properties
