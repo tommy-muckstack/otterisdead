@@ -21,7 +21,7 @@ const plans: { name: string; sub: string; val: React.ReactNode; valM?: React.Rea
     top: [{ t: "Unlimited custom AI workflows", b: true }, { t: "Otter Sales Notetaker", b: true }, { t: "Custom integrations (CRM, dialers)", b: true }], lead: "Everything in Business, plus",
     rest: [{ t: "SSO, SCIM, Domain Capture" }, { t: "Enterprise-grade security & controls" }, { t: "HIPAA compliance (add-on)" }, { t: "Otter API & Webhooks" }, { t: "Video replay for Zoom and Google Meet" }, { t: "AI Chat with Gmail, Google Drive, Notion, Jira", n: true }, { t: "Customer Success Program" }] },
 ];
-const logos = ["salesforce", "HARVARD", "NBC UNIVERSAL", "amazon", "IBM", "GRANT THORNTON", "Walgreens", "mastercard"];
+const logos = ["Free", "Open source", "Apache-2.0", "No plans", "No card", "No bot", "In your browser", "SRT export"];
 const hdr: [string, string, string, string][] = [["Basic", "Free", "forever", "Get started"], ["Pro", "$8.33", "user/month", "Buy now"], ["Business", "$19.99", "user/month", "Buy now"], ["Enterprise", "", "", "Schedule a demo"]];
 const Tag = () => <em className="otp-new">New</em>;
 
@@ -31,7 +31,7 @@ export function OtPricing() {
   const [faq, setFaq] = useState<number | null>(null);
   const groups = data.groups as [string, [string, (string | number)[], number][]][];
   return <div className="otp">
-    <section className="otp-hero"><h1>Choose the plan that’s right for you</h1>
+    <section className="otp-hero"><h1>Otter’s plans, for comparison</h1>
       <div className="otp-tabs"><button className={annual ? "" : "on"} onClick={() => setAnnual(false)}>Monthly</button><button className={annual ? "on" : ""} onClick={() => setAnnual(true)}>Annual <i>save 51%</i></button></div>
       <p className="otp-usd">Prices in USD</p>
       <div className="otp-plans">{plans.map(p => <article key={p.name} className={"otp-plan" + (p.best ? " is-best" : "")}>
@@ -49,11 +49,11 @@ export function OtPricing() {
       <div className="otp-tbl__b">{groups.map(([g, rows], gi) => <div key={g} className="otp-grp">
         <button type="button" className="otp-grp__h" aria-expanded={!shut[gi]} onClick={() => setShut({ ...shut, [gi]: !shut[gi] })}><h4>{g}</h4><svg width="33" height="33" viewBox="0 0 24 24" aria-hidden style={{ transform: shut[gi] ? "rotate(45deg)" : undefined }}><path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg></button>
         {!shut[gi] && rows.map(([t, cells, h]) => <div key={t} className="otp-row" style={{ height: h }}><span>{t}</span>{cells.map((c, i) => <div key={i}>{c === 1 ? <Chk s={23} /> : <small>{c}</small>}</div>)}</div>)}</div>)}</div>
-      <p className="otp-notes">* Shared pool across all transcription types<br />* Offer valid for first-time subscribers only</p>
+      <p className="otp-notes">* Plans, prices and limits in this table are Otter’s, shown for comparison. OtterIsDead has no paid plans.</p>
     </section>
     <section className="otp-faq"><h2>Frequently Asked Questions</h2>
       <div>{data.faqs.map(([q, a], i) => <details key={q} open={faq === i} onClick={e => { e.preventDefault(); setFaq(faq === i ? null : i); }}><summary><span>{q}</span><i aria-hidden>{faq === i ? "−" : "+"}</i></summary><p>{a}</p></details>)}</div></section>
-    <section className="otp-cta"><div className="otp-cta__ov" aria-hidden>{Array.from({ length: 9 }, (_, i) => <i key={i} />)}</div><h2>The world’s smartest AI Notetaker</h2>
+    <section className="otp-cta"><div className="otp-cta__ov" aria-hidden>{Array.from({ length: 9 }, (_, i) => <i key={i} />)}</div><h2>Free, open-source meeting notes</h2>
       <div><Link href="/login" className="otp-btn otp-btn--w">Start for free</Link><Link href="/login" className="otp-btn otp-btn--g">Demo it live</Link></div></section>
   </div>;
 }
